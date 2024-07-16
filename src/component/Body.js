@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
  import Shimmer from "./shimmer.js";
     const Body= () =>{
         const [listofrestaurants,setlistofrestaurants]=useState([]);
+        const [filteredrestaurants,setfilteredrestaurants]=useState([]);
+        const[searchtext,Setsearchtext]=useState("");
         useEffect(()=>{
             fetchData();
         },[]);
@@ -13,6 +15,8 @@ import { useEffect, useState } from "react";
     const json =await data.json();
    
      setlistofrestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        
+     setfilteredrestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     };
     {if (listofrestaurants.length === 0)
         return <Shimmer/>;
@@ -22,6 +26,20 @@ import { useEffect, useState } from "react";
       return(
           <div className="body">
               <div className="filter">
+                <div className="search">
+                    <input type="text" className="search-box" value={searchtext} onChange={(e)=>{
+                        Setsearchtext(e.target.value);
+                    }}/>
+                    <button
+                    onClick={()=>{
+                        console.log(searchtext);
+                    const  filteredrestaurants=listofrestaurants.filter((res) =>
+                            res.info.name.toLowerCase().includes(searchtext.toLowerCase()));
+                        setfilteredrestaurants(filteredrestaurants);
+                    }}
+
+                    >search</button> 
+                </div>
                 <button
                 className="filter-btn"
                 onClick={()=>{
@@ -35,7 +53,7 @@ import { useEffect, useState } from "react";
                 </button>
                 </div>
               <div className="resto-container">
-              {listofrestaurants.map((restaurants)=>(
+              {filteredrestaurants.map((restaurants)=>(
                   <Restocard key={restaurants.info.id} resdata={restaurants}/>
               ))}
               </div>

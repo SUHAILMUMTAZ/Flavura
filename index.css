@@ -63,3 +63,6 @@ border: 1px solid black;
     flex-wrap: wrap;
 
 }
+.filter{
+    display: flex;
+}
