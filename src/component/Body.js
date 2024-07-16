@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
     );
     const json =await data.json();
    
-     setlistofrestaurants(json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants);
+     setlistofrestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     };
     {if (listofrestaurants.length === 0)
         return <Shimmer/>;
